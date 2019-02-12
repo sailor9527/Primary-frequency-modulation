@@ -1,0 +1,1239 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>一次调频系统</title>
+    <script src="./lib/echarts.js"></script>
+    <script src="./lib/jquery.min.js"></script>
+    <style>
+      body {
+        width: 1920px;
+        height: 1080px;
+        margin: 0px;
+      }
+
+      #all {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 1920px;
+        height: 1080px;
+        margin: 0px;
+        background-image: linear-gradient(0deg, #47527f 0%, #1d233f 100%);
+      }
+
+      #header {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        height: 120px;
+      }
+
+      #left {
+        position: absolute;
+        top: 120px;
+        left: 0px;
+        bottom: 0px;
+        width: 480px;
+        border: 3px solid #47527f;
+        border-right-width: 0px;
+      }
+
+      #center {
+        position: absolute;
+        top: 120px;
+        left: 480px;
+        right: 480px;
+        bottom: 0px;
+        border: 3px solid #47527f;
+      }
+
+      #right {
+        position: absolute;
+        top: 120px;
+        right: 0px;
+        bottom: 0px;
+        width: 480px;
+        border: 3px solid #47527f;
+        border-left-width: 0px;
+      }
+
+      #common {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        bottom: 0px;
+        width: 480px;
+      }
+
+      #overview {
+        position: absolute;
+        top: 0px;
+        left: 480px;
+        right: 480px;
+        bottom: 0px;
+        text-align: center;
+        line-height: 120px;
+        font-size: 50px;
+        color: #ffffff;
+      }
+
+      #datetime {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        bottom: 0px;
+        width: 480px;
+        text-align: center;
+        line-height: 120px;
+        font-size: 35px;
+        color: #ffffff;
+      }
+
+      /* #left_area_1 {
+        } */
+
+      .com_text {
+        position: relative;
+        left: 100px;
+        font-size: 15px;
+        color: #ffffff;
+      }
+
+      .com_cont {
+        position: absolute;
+        left: 150px;
+        font-size: 15px;
+        color: #ffffff;
+      }
+
+      .info_unit {
+        position: absolute;
+        left: 200px;
+        font-size: 15px;
+        color: rgb(21, 95, 207);
+      }
+
+      #left_area_1 {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        height: 360px;
+        width: 480px;
+        /* background-color: #ffffff */
+        color: #ffffff;
+        /* font-size: 20px; */
+        /* line-height: 22px; */
+        border-bottom: 3px solid #47527f;
+      }
+
+      #left_area_2 {
+        position: absolute;
+        top: 360px;
+        width: 480px;
+        height: 473px;
+      }
+
+      #left_area_3 {
+        position: absolute;
+        left: 0px;
+        bottom: 0px;
+        width: 480px;
+        height: 120px;
+        border-top: 3px solid #47527f;
+        color: #ffffff;
+        line-height: 60px;
+        
+        font-size: 25px;
+      }
+
+      #center_area_1 {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        width: 957px;
+        height: 60px;
+        border-bottom: 3px solid #47527f;
+        color: #ffffff;
+        font-size: 25px;
+      }
+
+      #center_area_1_left {
+        position: absolute;
+        width: 35%;
+        height: 60px;
+        left: 0px;
+        border-right: 3px solid #47527f;
+      }
+
+      #center_area_1_right {
+        position: absolute;
+        width: 65%;
+        height: 60px;
+        right: 0px;
+      }
+
+      #center_area_2 {
+          position: absolute;
+          top: 60px;
+          right: 0px;
+          width: 960px;
+          height: 300px;
+          border-bottom: 3px solid #47527f;
+      }
+
+      #center_area_3 {
+          position: absolute;
+          top: 360px;
+          left: 0px;
+          right: 0px;
+          height: 60px;
+          width: 957px;
+          border-bottom: 3px solid #47527f;
+          color: #ffffff;
+          font-size: 25px;
+      }
+
+      #center_area_3_left {
+        position: absolute;
+        width: 50%;
+        height: 60px;
+        left: 0px;
+        border-right: 3px solid #47527f;
+      }
+
+      #center_area_3_right {
+        position: absolute;
+        width: 50%;
+        height: 60px;
+        right: 0px;
+      }
+
+      #center_area_3_cont_left {
+        position: absolute;
+        line-height: 60px;
+        left: 340px;
+        color: green;
+      }
+
+      #center_area_3_cont_right {
+        position: absolute;
+        line-height: 60px;
+        left: 320px;
+        color: green;
+      }
+
+      #center_area_4 {
+          position: absolute;
+          top: 420px;
+          left: 0px;
+          right: 0px;
+          height: 412px;
+          width: 957px;
+          border-bottom: 3px solid #47527f;
+      }
+
+      #center_area_5 {
+        position: absolute;
+        top: 835px;
+        left: 0px;
+        right: 0px;
+        bottom: 0px;
+        line-height: 60px;
+        color: #ffffff;
+        font-size: 25px;
+      }
+
+      #center_area_5_1 {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        height: 50%;
+        border-bottom: 3px solid #47527f;
+      }
+      
+      #center_area_5_2 {
+        position: absolute;
+        top: 60px;
+        left: 0px;
+        right: 0px;
+        height: 50%;
+      }      
+
+      #center_area_5_1_left {
+        position: absolute;
+        top: 0px;
+        bottom: 0px;
+        left: 0px;
+        width: 50%;
+        border-right: 3px solid #47527f;
+      }
+
+      #center_area_5_1_right {
+        position: absolute;
+        top: 0px;
+        bottom: 0px;
+        right: 0px;
+        width: 50%;
+      }
+
+      #center_area_5_2_left {
+        position: absolute;
+        top: 0px;
+        bottom: 0px;
+        left: 0px;
+        width: 50%;
+        border-right: 3px solid #47527f;
+      }
+
+      #center_area_5_2_right {
+        position: absolute;
+        top: 0px;
+        bottom: 0px;
+        right: 0px;
+        width: 50%;
+      }
+
+      .center_area_5_text {
+        position: absolute;
+        left: 20px;
+      }
+
+      .center_area_5_cont {
+        position: absolute;
+        left: 300px;
+      }
+
+      .center_area_5_unit {
+        position: absolute;
+        left: 380px;
+        color: rgb(21, 95, 207);
+      }
+
+
+ 
+      #right_area_1 {
+          position: absolute;
+          top: 0px;
+          left: 0px;
+          height: 120px;
+          width: 480px;
+          border-bottom: 3px solid #47527f;
+          font-size: 15px;
+          color: #ffffff;
+      }
+
+      #right_area_2 {
+          position: absolute;
+          top: 120px;
+          left: 0px;
+          height: 240px;
+          width: 480px;
+          border-bottom: 3px solid #47527f;
+      }
+
+      #right_area_3 {
+          position: absolute;
+          top: 363px;
+          left: 0px;
+          height: 285px;
+          width: 480px;
+          border-bottom: 3px solid #47527f;
+      }
+
+      #right_area_4 {
+        position: absolute;
+        top: 660px;
+        bottom: 0px;
+        width: 100%;
+        font-size: 20px;
+        color: #ffffff;
+      }
+
+      .left_area_1_text {
+        width: 240px;
+        text-align: center;
+        font-size: 20px;
+        line-height: 50px;
+        margin: 0px;
+      }
+
+      .left_area_1_cont {
+        position: absolute;
+        left: 280px;
+      }
+
+      .left_area_1_unit {
+        position: absolute;
+        left: 350px;
+        color: rgb(21, 95, 207);
+      }
+
+      .center_area_1_text {
+        position: absolute;
+        line-height: 60px;
+        left: 20px;
+      }
+      /* #center_area_1_text{
+            position: absolute;
+            left: 20px;
+            line-height: 60px;
+        } */
+
+      #center_area_1_cont_left {
+        position: absolute;
+        line-height: 60px;
+        left: 240px;
+        color: green;
+      }
+
+      #center_area_1_cont_right {
+        position: absolute;
+        line-height: 60px;
+        left: 420px;
+      }
+
+      #center_area_1_unit_right {
+        position: absolute;
+        line-height: 60px;
+        right: 60px;
+        color: rgb(21, 95, 207);
+      }
+
+      .right_area_1_text {
+        width: 240px;
+        text-align: left;
+        padding-left: 80px;
+      }
+
+      .right_area_1_cont {
+        position: absolute;
+        left: 220px;
+      }
+
+      #AGC_desc {
+        left: 30px;
+      }
+
+      #AGC_status {
+        left: 260px;
+      }
+
+      #center_area_1_text {
+        left: 360px;
+      }
+
+      .center_area_3_text {
+        position: absolute;
+        line-height: 60px;
+        left: 20px;
+      }
+
+      .right_area_4_para {
+        width: 480px;
+        height: 25px;
+      }
+
+      .right_area_4_text {
+        position: absolute;
+        left: 30px;
+      }
+      
+      .right_area_4_cont {
+        position: absolute;
+        left: 350px;
+      }
+
+      #left_area_3_upper {
+          position: absolute;
+          top: 0px;
+          left: 0px;
+          right: 0px;
+          height: 50%;
+          border-bottom: 3px solid #47527f;
+      }
+
+      #left_area_3_lower {
+          position: absolute;
+          top: 60px;
+          left: 0px;
+          right: 0px;
+          height: 50%;
+      }
+
+      .left_area_3_text {
+          position: absolute;
+          left: 20px;
+      }
+
+      .left_area_3_cont {
+          position: absolute;
+          left: 300px;
+      }
+
+      .left_area_3_unit {
+          position: absolute;
+          left: 380px;
+          color: rgb(21, 95, 207);
+      }
+
+      /* .center_area_1_cont {
+        position: absolute;
+        line-height: 60px;
+        left: 70px;
+      } */
+    </style>
+  </head>
+  <body id="all">
+    <div id="header">
+      <div id="common">
+        <p class="com_text">
+          总装机量 <span class="com_cont">100</span>
+          <span class="info_unit">MW</span>
+        </p>
+        <p class="com_text">风机数量 <span class="com_cont">0</span></p>
+        <p class="com_text">逆变器数量 <span class="com_cont">4</span></p>
+      </div>
+      <div id="overview"><span>一次调频系统工作状态总览</span></div>
+      <div id="datetime"></div>
+    </div>
+
+    <div id="left">
+      <div id="left_area_1">
+        <p class="left_area_1_text">
+          实时有功功率 <span class="left_area_1_cont">100</span>
+          <span class="left_area_1_unit">kW</span>
+        </p>
+
+        <p class="left_area_1_text">
+          实时无功功率 <span class="left_area_1_cont">100</span>
+          <span class="left_area_1_unit">kW</span>
+        </p>
+
+        <p class="left_area_1_text">
+          主变高压侧UAB <span class="left_area_1_cont">100</span>
+          <span class="left_area_1_unit">kV</span>
+        </p>
+        <p class="left_area_1_text">
+          主变高压侧UBC <span class="left_area_1_cont">100</span>
+          <span class="left_area_1_unit">kV</span>
+        </p>
+        <p class="left_area_1_text">
+          主变高压侧UCA <span class="left_area_1_cont">100</span>
+          <span class="left_area_1_unit">kV</span>
+        </p>
+
+        <p class="left_area_1_text">
+          实时频率 <span class="left_area_1_cont">100</span>
+          <span class="left_area_1_unit">HZ</span>
+        </p>
+
+        <p class="left_area_1_text">
+          实时功率因数 <span class="left_area_1_cont">1</span>
+          <span class="left_area_1_unit"></span>
+        </p>
+      </div>
+
+      <div id="left_area_2">
+
+      </div>
+
+      <div id="left_area_3">
+        <div id="left_area_3_upper">
+            <span class="left_area_3_text">当日累计发电量</span>
+            <span class="left_area_3_cont">100</span>
+            <span class="left_area_3_unit">kW</span>
+        </div>
+        
+        <div id="left_area_3_lower">
+            <span class="left_area_3_text">当月累计发电量</span>
+            <span class="left_area_3_cont">100</span>
+            <span class="left_area_3_unit">kW</span>
+        </div>
+        
+      </div>
+    </div>
+
+    <div id="center">
+      <div id="center_area_1">
+        <div id="center_area_1_left">
+          <span class="center_area_1_text">AGC投切状态</span>
+          <span id="center_area_1_cont_left">投入</span>
+        </div>
+        <div id="center_area_1_right">
+          <span class="center_area_1_text">全厂有功功率上限目标设定值</span>
+          <span id="center_area_1_cont_right">100</span>
+          <span id="center_area_1_unit_right">kW</span>
+        </div>
+      </div>
+      <div id="center_area_2">
+
+      </div>
+      <div id="center_area_3">
+        <div id="center_area_3_left">
+          <span class="center_area_3_text">一次调频功能投切状态</span>
+          <span id="center_area_3_cont_left">投入</span>
+        </div>
+        <div id="center_area_3_right">
+          <span class="center_area_3_text">频率快速响应动作</span>
+          <span id="center_area_3_cont_right">待命</span>
+        </div>
+      </div>
+      <div id="center_area_4">
+        
+      </div>
+      <div id="center_area_5">
+        <div id="center_area_5_1">
+          <div id="center_area_5_1_left">
+              <span class="center_area_5_text">一次调频调节死区</span>
+              <span class="center_area_5_cont">0.06</span>
+              <span class="center_area_5_unit">HZ</span>
+          </div>
+          <div id="center_area_5_1_right">
+              <span class="center_area_5_text">一次调频调差率</span>
+              <span class="center_area_5_cont">3</span>
+              <span class="center_area_5_unit">%</span>
+          </div>
+        </div>
+        <div id="center_area_5_2">
+          <div id="center_area_5_2_left">
+              <span class="center_area_5_text">一次调频有功调节下限</span>
+              <span class="center_area_5_cont">20</span>
+              <span class="center_area_5_unit">%</span>
+          </div>
+          <div id="center_area_5_2_right">
+              <span class="center_area_5_text">一次调频有功现幅比例</span>
+              <span class="center_area_5_cont">10</span>
+              <span class="center_area_5_unit">%</span>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+
+    <div id="right">
+        <div id="right_area_1">
+          <p class="right_area_1_text">AVC投切状态     <span class="right_area_1_cont">投入</span> </p>
+          <p class="right_area_1_text">AVC模式状态     <span class="right_area_1_cont">电压控制方式</span> </p>
+          <p class="right_area_1_text">模式控制目标值     <span class="right_area_1_cont">100</span> </p>
+        </div>
+        <div id="right_area_2">
+
+        </div>
+        <div id="right_area_3">
+
+        </div>
+        <div id="right_area_4">
+          <p class="right_area_4_para"> <span class="right_area_4_text">一次调频有功功率调节目标值</span>  <span class="right_area_4_cont">100</span> </p>
+          <p class="right_area_4_para"> <span class="right_area_4_text">一次调频有功功率调节初始值</span>  <span class="right_area_4_cont">100</span> </p>
+          <p class="right_area_4_para"> <span class="right_area_4_text">当日频率超限次数</span>  <span class="right_area_4_cont">5</span> </p>
+          <p class="right_area_4_para"> <span class="right_area_4_text">当日一次调频动作次数</span>  <span class="right_area_4_cont">3</span> </p>
+          <p class="right_area_4_para"> <span class="right_area_4_text">当月频率超限次数</span>  <span class="right_area_4_cont">10</span> </p>
+          <p class="right_area_4_para"> <span class="right_area_4_text">当月一次调频动作次数</span> <span class="right_area_4_cont">20</span> </p>
+        </div>
+    </div>
+
+    <script>
+      // time
+      let fill2bit = function(num) {
+        if (num < 10) {
+          return "0" + num;
+        } else {
+          return num.toString();
+        }
+      };
+      let format_date_time = function(now) {
+        return (
+          now.getFullYear() +
+          "-" +
+          fill2bit(now.getMonth() + 1) +
+          "-" +
+          fill2bit(now.getDate()) +
+          " " +
+          fill2bit(now.getHours()) +
+          ":" +
+          fill2bit(now.getMinutes()) +
+          ":" +
+          fill2bit(now.getSeconds())
+        );
+      };
+      let format_time = function(now) {
+        return (
+          fill2bit(now.getHours()) +
+          ":" +
+          fill2bit(now.getMinutes()) +
+          ":" +
+          fill2bit(now.getSeconds())
+        );
+      };
+      let datetime = document.getElementById("datetime");
+      let now = new Date();
+      datetime.innerText = format_date_time(now);
+
+
+
+      //chart
+      // 为Echarts准备一个具备大小（高宽）的Dom
+      let chart_1 = echarts.init(document.getElementById('left_area_2'));
+      let chart_1_option = {
+          grid: {
+              top: '60px',
+              left: '35px',
+              right: '35px',
+              bottom: '30px'
+          },
+          legend: {
+              show: true,
+              data: ['主变频率', '有功功率'],
+              textStyle: '#ffffff',
+              top: '30px'
+          },
+          title: {
+              left: 'center',
+              text: '主变频率变化趋势',
+              textStyle: {
+                  color: '#ffffff'
+              }
+          },
+          textStyle: {
+              color: '#ffffff'
+          },
+          color: ['#00FFFF', '#00FF7F'],
+          xAxis: {
+              // type: 'category',
+              type: 'time',
+              boundaryGap: false,
+              axisLine: {
+                  lineStyle: {
+                      color: '#ffffff'
+                  }
+              },
+              // data: (function () {
+              //     let r = [];
+              //     let now = new Date();
+              //     now = new Date(+now - 60000);
+              //     for (let i = 0; i < 61; i++) {
+              //         now = new Date(+now + 1000);
+              //         now_str = format_date_time(now);
+              //         r.push(now_str);
+              //     }
+              //     return r;
+              // })()
+          },
+          yAxis: [{
+              name: 'Hz',
+              type: 'value',
+              min: 0,
+              max: 100,
+              splitLine: {
+                  show: false
+              },
+              axisLine: {
+                  lineStyle: {
+                      color: '#ffffff'
+                  }
+              }
+          }, {
+              name: 'kW',
+              type: 'value',
+              min: 0,
+              max: 100,
+              splitLine: {
+                  show: false
+              },
+              axisLine: {
+                  lineStyle: {
+                      color: '#ffffff'
+                  }
+              }
+          }],
+          animation: false,
+          series: [{
+              data: (function () {
+                  let r = [];
+                  for (let i = 0; i < 61; i++) {
+                      r.push([format_date_time(new Date(+now - 60000 + i * 1000)), Math.random() *
+                          100
+                      ]);
+                  }
+                  return r;
+              })(),
+              name: '主变频率',
+              type: 'line',
+              showSymbol: false,
+              smooth: true
+
+          }, {
+              data: (function () {
+                  let r = [];
+                  for (let i = 0; i < 61; i++) {
+                      r.push([format_date_time(new Date(+now - 60000 + i * 1000)), Math.random() *
+                          100
+                      ]);
+                  }
+                  return r;
+              })(),
+              name: '有功功率',
+              type: 'line',
+              showSymbol: false,
+              smooth: true
+
+          }]
+      }
+      chart_1.setOption(chart_1_option);
+      let update = function () {
+            // time
+            // let now = new Date();
+            datetime.innerText = format_date_time(new Date());
+
+            // chart
+            let now = new Date();
+            chart_1_option['series'][0]['data'].shift();
+            chart_1_option['series'][0]['data'].push([format_date_time(now), Math.random() * 100]);
+            chart_1_option['series'][1]['data'].shift();
+            chart_1_option['series'][1]['data'].push([format_date_time(now), Math.random() * 100]);
+            console.log(chart_1_option);
+            chart_1.setOption(chart_1_option);
+
+            // text
+            flag = Math.random() * 2
+            text.className = flag < 1 ? 'left_block_text waiting' : 'left_block_text running';
+            text.innerText = flag < 1 ? '待 命' : '动 作';
+        }
+
+        setInterval(() => {
+            update();
+        }, 1000)
+
+        //chart2
+        let chart_2 = echarts.init(document.getElementById('center_area_2'));
+        option = {
+            title: {
+                text: '各发电单元实时有功功率',
+                textStyle: {
+                  color: '#ffffff'
+              }
+                
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            // legend: {
+            //     data:['最低气温'],
+            //     textStyle: {
+            //         color: '#ffffff'
+            //     }
+            // },
+            toolbox: {
+                show: true,
+                feature: {
+                    dataZoom: {
+                        yAxisIndex: 'none'
+                    },
+                    dataView: {readOnly: false},
+                    magicType: {type: ['line', 'bar']},
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
+            xAxis:  {
+                type: 'category',
+                boundaryGap: false,
+                data: ['1#','2#','3#','4#','5#','6#','7#'],
+                axisLabel: {
+                    color: '#ffffff'
+                }
+                
+            },
+            yAxis: {
+                type: 'value',
+                axisLabel: {
+                    formatter: '{value} kW'
+                },
+                axisLabel:{
+                    color: '#ffffff'
+                }
+            },
+            series: [
+                
+                {
+                    name:'最低气温',
+                    type:'line',
+                    data:[1, -2, 2, 5, 3, 2, 0],
+                    markPoint: {
+                        data: [
+                            {name: '周最低', value: -2, xAxis: 1, yAxis: -1.5}
+                        ]
+                    },
+                    markLine: {
+                        data: [
+                            {type: 'average', name: '平均值'},
+                            [{
+                                symbol: 'none',
+                                x: '90%',
+                                yAxis: 'max'
+                            }, {
+                                symbol: 'circle',
+                                label: {
+                                    normal: {
+                                        position: 'start',
+                                        formatter: '最大值'
+                                    }
+                                },
+                                type: 'max',
+                                name: '最高点'
+                            }]
+                        ]
+                    }
+                }
+            ]
+        };
+
+        chart_2.setOption(option);
+
+      //chart3
+      let chart_3 = echarts.init(document.getElementById('center_area_4'));
+      let chart_3_option = {
+          grid: {
+              top: '60px',
+              left: '35px',
+              right: '35px',
+              bottom: '30px'
+          },
+          legend: {
+              show: true,
+              data: ['主变频率', '有功功率'],
+              textStyle: '#ffffff',
+              top: '30px'
+          },
+          title: {
+              left: 'center',
+              text: '主变频率变化趋势',
+              textStyle: {
+                  color: '#ffffff'
+              }
+          },
+          textStyle: {
+              color: '#ffffff'
+          },
+          color: ['#00FF00', '#1E90FF'],
+          xAxis: {
+              // type: 'category',
+              type: 'time',
+              boundaryGap: false,
+              axisLine: {
+                  lineStyle: {
+                      color: '#ffffff'
+                  }
+              },
+              // data: (function () {
+              //     let r = [];
+              //     let now = new Date();
+              //     now = new Date(+now - 60000);
+              //     for (let i = 0; i < 61; i++) {
+              //         now = new Date(+now + 1000);
+              //         now_str = format_date_time(now);
+              //         r.push(now_str);
+              //     }
+              //     return r;
+              // })()
+          },
+          yAxis: [{
+              name: 'Hz',
+              type: 'value',
+              min: 0,
+              max: 100,
+              splitLine: {
+                  show: false
+              },
+              axisLine: {
+                  lineStyle: {
+                      color: '#ffffff'
+                  }
+              }
+          }, {
+              name: 'kW',
+              type: 'value',
+              min: 0,
+              max: 100,
+              splitLine: {
+                  show: false
+              },
+              axisLine: {
+                  lineStyle: {
+                      color: '#ffffff'
+                  }
+              }
+          }],
+          animation: false,
+          series: [{
+              data: (function () {
+                  let r = [];
+                  for (let i = 0; i < 61; i++) {
+                      r.push([format_date_time(new Date(+now - 60000 + i * 1000)), Math.random() *
+                          100
+                      ]);
+                  }
+                  return r;
+              })(),
+              name: '主变频率',
+              type: 'line',
+              showSymbol: false,
+              smooth: true
+
+          }, {
+              data: (function () {
+                  let r = [];
+                  for (let i = 0; i < 61; i++) {
+                      r.push([format_date_time(new Date(+now - 60000 + i * 1000)), Math.random() *
+                          100
+                      ]);
+                  }
+                  return r;
+              })(),
+              name: '有功功率',
+              type: 'line',
+              showSymbol: false,
+              smooth: true
+
+          }]
+      }
+      chart_3.setOption(chart_3_option);
+
+        setInterval(() => {
+            update();
+        }, 1000)
+
+      //chart4
+      let chart_4 = echarts.init(document.getElementById('right_area_2'));
+      let chart_4_option = {
+          grid: {
+              top: '60px',
+              left: '35px',
+              right: '35px',
+              bottom: '30px'
+          },
+          legend: {
+              show: true,
+              data: ['主变频率', '有功功率'],
+              textStyle: '#ffffff',
+              top: '30px'
+          },
+          title: {
+              left: 'center',
+              text: '主变频率变化趋势',
+              textStyle: {
+                  color: '#ffffff'
+              }
+          },
+          textStyle: {
+              color: '#ffffff'
+          },
+          color: ['#28a745', '#fd7e14'],
+          xAxis: {
+              // type: 'category',
+              type: 'time',
+              boundaryGap: false,
+              axisLine: {
+                  lineStyle: {
+                      color: '#ffffff'
+                  }
+              },
+              // data: (function () {
+              //     let r = [];
+              //     let now = new Date();
+              //     now = new Date(+now - 60000);
+              //     for (let i = 0; i < 61; i++) {
+              //         now = new Date(+now + 1000);
+              //         now_str = format_date_time(now);
+              //         r.push(now_str);
+              //     }
+              //     return r;
+              // })()
+          },
+          yAxis: [{
+              name: 'Hz',
+              type: 'value',
+              min: 0,
+              max: 100,
+              splitLine: {
+                  show: false
+              },
+              axisLine: {
+                  lineStyle: {
+                      color: '#ffffff'
+                  }
+              }
+          }, {
+              name: 'kW',
+              type: 'value',
+              min: 0,
+              max: 100,
+              splitLine: {
+                  show: false
+              },
+              axisLine: {
+                  lineStyle: {
+                      color: '#ffffff'
+                  }
+              }
+          }],
+          animation: false,
+          series: [{
+              data: (function () {
+                  let r = [];
+                  for (let i = 0; i < 61; i++) {
+                      r.push([format_date_time(new Date(+now - 60000 + i * 1000)), Math.random() *
+                          100
+                      ]);
+                  }
+                  return r;
+              })(),
+              name: '主变频率',
+              type: 'line',
+              showSymbol: false,
+              smooth: true
+
+          }, {
+              data: (function () {
+                  let r = [];
+                  for (let i = 0; i < 61; i++) {
+                      r.push([format_date_time(new Date(+now - 60000 + i * 1000)), Math.random() *
+                          100
+                      ]);
+                  }
+                  return r;
+              })(),
+              name: '有功功率',
+              type: 'line',
+              showSymbol: false,
+              smooth: true
+
+          }]
+      }
+      chart_4.setOption(chart_4_option);
+
+        setInterval(() => {
+            update();
+        }, 1000)
+
+      //chart5
+      let chart_5 = echarts.init(document.getElementById('right_area_3'));
+      let chart_5_option = {
+          grid: {
+              top: '60px',
+              left: '35px',
+              right: '35px',
+              bottom: '30px'
+          },
+          legend: {
+              show: true,
+              data: ['主变频率', '有功功率'],
+              textStyle: '#ffffff',
+              top: '30px'
+          },
+          title: {
+              left: 'center',
+              text: '主变频率变化趋势',
+              textStyle: {
+                  color: '#ffffff'
+              }
+          },
+          textStyle: {
+              color: '#ffffff'
+          },
+          color: ['#28a745', '#fd7e14'],
+          xAxis: {
+              // type: 'category',
+              type: 'time',
+              boundaryGap: false,
+              axisLine: {
+                  lineStyle: {
+                      color: '#ffffff'
+                  }
+              },
+              // data: (function () {
+              //     let r = [];
+              //     let now = new Date();
+              //     now = new Date(+now - 60000);
+              //     for (let i = 0; i < 61; i++) {
+              //         now = new Date(+now + 1000);
+              //         now_str = format_date_time(now);
+              //         r.push(now_str);
+              //     }
+              //     return r;
+              // })()
+          },
+          yAxis: [{
+              name: 'Hz',
+              type: 'value',
+              min: 0,
+              max: 100,
+              splitLine: {
+                  show: false
+              },
+              axisLine: {
+                  lineStyle: {
+                      color: '#ffffff'
+                  }
+              }
+          }, {
+              name: 'kW',
+              type: 'value',
+              min: 0,
+              max: 100,
+              splitLine: {
+                  show: false
+              },
+              axisLine: {
+                  lineStyle: {
+                      color: '#ffffff'
+                  }
+              }
+          }],
+          animation: false,
+          series: [{
+              data: (function () {
+                  let r = [];
+                  for (let i = 0; i < 61; i++) {
+                      r.push([format_date_time(new Date(+now - 60000 + i * 1000)), Math.random() *
+                          100
+                      ]);
+                  }
+                  return r;
+              })(),
+              name: '主变频率',
+              type: 'line',
+              showSymbol: false,
+              smooth: true
+
+          }, {
+              data: (function () {
+                  let r = [];
+                  for (let i = 0; i < 61; i++) {
+                      r.push([format_date_time(new Date(+now - 60000 + i * 1000)), Math.random() *
+                          100
+                      ]);
+                  }
+                  return r;
+              })(),
+              name: '有功功率',
+              type: 'line',
+              showSymbol: false,
+              smooth: true
+
+          }]
+      }
+      chart_5.setOption(chart_5_option);
+
+        setInterval(() => {
+            update();
+        }, 1000)
+
+    </script>
+  </body>
+</html>
