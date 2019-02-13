@@ -945,9 +945,11 @@
                 text.innerText = flag < 1 ? "待 命" : "动 作";
             };
 
-            setInterval(() => {
-                update();
-            }, 1000);
+            // setInterval(() => {
+            //     update();
+            // }, 1000);
+
+            setInterval("update()",1000);
 
             //chart2
             let chart_2 = echarts.init(document.getElementById("chart_2"));
@@ -1159,9 +1161,10 @@
             };
             chart_3.setOption(chart_3_option);
 
-            setInterval(() => {
-                update();
-            }, 1000);
+            // setInterval(() => {
+            //     update();
+            // }, 1000);
+            setInterval("update()",1000);
 
             //chart4
             let chart_4 = echarts.init(document.getElementById("chart_4"));
@@ -1282,9 +1285,10 @@
             };
             chart_4.setOption(chart_4_option);
 
-            setInterval(() => {
-                update();
-            }, 1000);
+            // setInterval(() => {
+            //     update();
+            // }, 1000);
+            setInterval("update()",1000);
 
             //chart5
             let chart_5 = echarts.init(document.getElementById("chart_5"));
@@ -1405,9 +1409,10 @@
             };
             chart_5.setOption(chart_5_option);
 
-            setInterval(() => {
-                update();
-            }, 1000);
+            // setInterval(() => {
+            //     update();
+            // }, 1000);
+            setInterval("update()",1000);
         </script>
     </body>
 </html>
