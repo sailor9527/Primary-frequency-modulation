@@ -1,4 +1,4 @@
-<html lang="en">
+﻿<html lang="en">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -494,11 +494,12 @@
                 left: 20px;
             }
 
-            #center_area_1_cont_left {
+            .center_area_1_cont_left {
                 position: absolute;
                 line-height: 69px;
+                font-size: 30px;
                 left: 240px;
-                color: green;
+                color: #2ef722
             }
 
             #center_area_1_cont_right {
@@ -522,8 +523,9 @@
             .center_area_3_cont {
                 position: absolute;
                 line-height: 75px;
+                font-size: 30px;
                 left: 320px;
-                color: green;
+                color: #2ef722
             }
 
             .center_area_5_text {
@@ -552,6 +554,12 @@
             .right_area_1_cont {
                 position: absolute;
                 left: 220px;
+            }
+
+            .right_area_1_unit {
+                position: absolute;
+                left: 280px;
+                color: rgb(21, 95, 207);
             }
 
             .right_area_4_text {
@@ -594,31 +602,31 @@
             <div id="left_area_2">
                 <div id="left_row_1" class="left_row">
                     <p class="left_area_1_text">
-                        实时有功功率 <span class="left_area_1_cont">1000</span>
-                        <span class="left_area_1_unit">kW</span>
+                        实时有功功率 <span class="left_area_1_cont" id="rt_active_power">1000</span>
+                        <span class="left_area_1_unit">MW</span>
                     </p>
                 </div>
                 <div id="left_row_2" class="left_row">
                     <p class="left_area_1_text">
                         实时无功功率 <span class="left_area_1_cont">1000</span>
-                        <span class="left_area_1_unit">kW</span>
+                        <span class="left_area_1_unit">Mvar</span>
                     </p>
                 </div>
                 <div id="left_row_3" class="left_row">
                     <p class="left_area_1_text">
-                        主变高压侧UAB <span class="left_area_1_cont">100</span>
+                        实时电压UAB <span class="left_area_1_cont">100</span>
                         <span class="left_area_1_unit">kV</span>
                     </p>
                 </div>
                 <div id="left_row_4" class="left_row">
                     <p class="left_area_1_text">
-                        主变高压侧UBC <span class="left_area_1_cont">100</span>
+                        实时电压UBC <span class="left_area_1_cont">100</span>
                         <span class="left_area_1_unit">kV</span>
                     </p>
                 </div>
                 <div id="left_row_5" class="left_row">
                     <p class="left_area_1_text">
-                        主变高压侧UCA <span class="left_area_1_cont">100</span>
+                        实时电压UCA <span class="left_area_1_cont">100</span>
                         <span class="left_area_1_unit">kV</span>
                     </p>
                 </div>
@@ -654,14 +662,14 @@
             <div id="center_area_1">
                 <div id="center_area_1_left">
                     <span class="center_area_1_text">AGC投切状态</span>
-                    <span id="center_area_1_cont_left">投入</span>
+                    <span class="center_area_1_cont_left" id="AGC_status">投 入</span>
                 </div>
                 <div id="center_area_1_right">
                     <span class="center_area_1_text"
                         >全厂有功功率上限目标设定值</span
                     >
                     <span id="center_area_1_cont_right">100</span>
-                    <span id="center_area_1_unit_right">kW</span>
+                    <span id="center_area_1_unit_right">MW</span>
                 </div>
             </div>
 
@@ -670,11 +678,11 @@
             <div id="center_area_3">
                 <div id="center_area_3_left">
                     <span class="center_area_3_text">一次调频功能投切状态</span>
-                    <span class="center_area_3_cont">投入</span>
+                    <span class="center_area_3_cont" id="Primary_Frequency_Modulation_State">投 入</span>
                 </div>
                 <div id="center_area_3_right">
                     <span class="center_area_3_text">频率快速响应动作</span>
-                    <span class="center_area_3_cont">待命</span>
+                    <span id="response_action_content" class="center_area_3_cont">待命</span>
                 </div>
             </div>
             <div id="center_area_4"><div id="chart_3"></div></div>
@@ -692,7 +700,7 @@
                 <div id="center_area_5_row2_left">
                     <span class="center_area_5_text">一次调频有功调节下限</span>
                     <span class="center_area_5_cont">0.06</span>
-                    <span class="center_area_5_unit">HZ</span>
+                    <span class="center_area_5_unit">%</span>
                 </div>
                 <div id="center_area_5_row2_right">
                     <span class="center_area_5_text">一次调频有功现幅比例</span>
@@ -706,7 +714,7 @@
             <div id="right_area_1">
                 <div id="AVG_status">
                     <p class="right_area_1_text">
-                        AVC投切状态 <span class="right_area_1_cont">投入</span>
+                        AVC投切状态 <span class="right_area_1_cont" id="AVC_status">投 入</span>
                     </p>
 
                     <p class="right_area_1_text">
@@ -717,6 +725,8 @@
                     <p class="right_area_1_text">
                         模式控制目标值
                         <span class="right_area_1_cont">100</span>
+                        <!-- <span class="right_area_1_unit"> Kw</span> -->
+
                     </p>
                 </div>
             </div>
@@ -761,6 +771,23 @@
         </div>
 
         <script>
+
+            function randomData() {
+                var currentTime = new Date();
+                var value = Math.random() * 1000
+
+                return {
+                    name: now.toString(),
+                    value: [
+                        [
+                            now.getFullYear(),
+                            now.getMonth() + 1,
+                            now.getDate()
+                        ].join("/"),
+                        Math.round(value)
+                    ]
+                }
+            }
             // time
             let fill2bit = function(num) {
                 if (num < 10) {
@@ -793,7 +820,13 @@
                     fill2bit(now.getSeconds())
                 );
             };
+            let data = []
             let datetime = document.getElementById("datetime");
+            let response_action = document.getElementById('response_action_content')
+            let rt_active_power = document.getElementById("rt_active_power")
+            // 几个投切状态
+            let agc_status = document.getElementById("AGC_status")
+            let primary_frequency_modulation_state = document.getElementById("Primary_Frequency_Modulation_State")
             let now = new Date();
             datetime.innerText = format_date_time(now);
 
@@ -823,7 +856,8 @@
                 textStyle: {
                     color: "#ffffff"
                 },
-                color: ["#00FFFF", "#00FF7F"],
+                // color: ["#00FFFF", "#00FF7F"],
+
                 xAxis: {
                     // type: 'category',
                     type: "time",
@@ -933,16 +967,18 @@
                     format_date_time(now),
                     Math.random() * 100
                 ]);
-                console.log(chart_1_option);
+                // console.log(chart_1_option);
                 chart_1.setOption(chart_1_option);
 
                 // text
-                flag = Math.random() * 2;
-                text.className =
-                    flag < 1
-                        ? "left_block_text waiting"
-                        : "left_block_text running";
-                text.innerText = flag < 1 ? "待 命" : "动 作";
+                flag = Math.random() * 8;
+                // 没明白下面的改变类名是什么意思
+                // text.className =
+                //     flag < 1
+                //         ? "left_block_text waiting"
+                //         : "left_block_text running";
+                // text.innerText = flag < 1 ? "待 命" : "动 作";
+                response_action.innerText = flag < 1 ? "待 命" : "动 作";
             };
 
             // setInterval(() => {
@@ -1412,7 +1448,52 @@
             // setInterval(() => {
             //     update();
             // }, 1000);
+            
             setInterval("update()",1000);
+
+            let update_data = function()
+            {
+                console.log('---------------')
+                $.ajax({
+                    // url: 'http://localhost:8080/text/?text1=' + input1.value + '&&text2=' + unformatTime(input2.value) + '&&text3=' + unformatTime(input3.value),
+                    url: 'http://localhost:8080/text/',
+                    type: 'GET',
+                    success: (data) => {
+                        console.log('-----')
+                        console.log(JSON.parse(data))
+                        value_rt_active_power = JSON.parse(data)
+                        rt_active_power.innerText = value_rt_active_power
+
+                        // console.log(agc_status.innerHTML)
+                        // 几个投切状态颜色改变
+                        if (agc_status.innerText == "投 入"){
+                            agc_status.style.color = "red";
+                        }
+                        else if(agc_status.innerText == "切 除"){
+                            agc_status.style.color = "#2ef722"  //绿色
+                        }
+
+                        if (primary_frequency_modulation_state.innerText == "投 入"){
+                            primary_frequency_modulation_state.style.color = "red";
+                        }
+                        else if(primary_frequency_modulation_state.innerText == "切 除"){
+                            primary_frequency_modulation_state.style.color = "#2ef722"  //绿色
+                        }
+
+                        if (response_action.innerText == "动 作"){
+                            response_action.style.color = "red";
+                        }
+                        else if(response_action.innerText == "待 命"){
+                            response_action.style.color = "#2ef722"  //绿色
+                        }
+                            
+
+                    }
+                })
+            }
+            
+            setInterval("update_data()",1000)
+            
         </script>
     </body>
 </html>
